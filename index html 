@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gilter Bank</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f6ff;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    .header {
+      background-color: #0057b7;
+      color: white;
+      padding: 15px;
+      font-size: 22px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .logo {
+      background-color: white;
+      color: #0057b7;
+      font-weight: bold;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 10px;
+      font-size: 20px;
+    }
+    .balance {
+      margin-top: 40px;
+      font-size: 28px;
+      color: #333;
+    }
+    .amount {
+      font-size: 35px;
+      font-weight: bold;
+      color: green;
+      margin-top: 10px;
+    }
+    .buttons {
+      margin-top: 40px;
+    }
+    button {
+      background-color: #0057b7;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      margin: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      width: 80%;
+      max-width: 300px;
+    }
+    .form {
+      display: none;
+      margin-top: 30px;
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 8px rgba(0,0,0,0.1);
+      width: 80%;
+      max-width: 350px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    input {
+      padding: 10px;
+      margin: 10px 0;
+      width: 90%;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="logo">G</div>
+    Gilter Bank
+  </div>
+
+  <div class="balance">Account Balance</div>
+  <div class="amount" id="balance">USD 500,000,000</div>
+
+  <div class="buttons">
+    <button onclick="deposit()">Deposit</button>
+    <button onclick="withdraw()">Withdraw</button>
+    <button onclick="showSendForm()">Send Money</button>
+  </div>
+
+  <div class="form" id="sendForm">
+    <h3>Send Money</h3>
+    <input type="text" id="accountNumber" placeholder="Account Number"><br>
+    <input type="number" id="sendAmount" placeholder="Amount"><br>
+    <button onclick="sendMoney()">Submit</button>
+  </div>
+
+  <script>
+    let balance = 500000000;
+
+    function updateBalance() {
+      document.getElementById("balance").innerText = "USD " + balance.toLocaleString();
+    }
+
+    function deposit() {
+      let amount = prompt("Enter deposit amount:");
+      if (amount && !isNaN(amount)) {
+        balance += parseFloat(amount);
+        updateBalance();
+      }
+    }
+
+    function withdraw() {
+      let amount = prompt("Enter withdrawal amount:");
+      if (amount && !isNaN(amount)) {
+        balance -= parseFloat(amount);
+        updateBalance();
+      }
+    }
+
+    function showSendForm() {
+      document.getElementById("sendForm").style.display = 'block';
+    }
+
+    function sendMoney() {
+      let account = document.getElementById("accountNumber").value;
+      let amount = parseFloat(document.getElementById("sendAmount").value);
+
+      if (!account || isNaN(amount) || amount <= 0) {
+        alert("Please enter valid account number and amount.");
+        return;
+      }
+
+      if (amount > balance) {
+        alert("Insufficient funds!");
+        return;
+      }
+
+      balance -= amount;
+      updateBalance();
+      alert("Fake transfer of USD " + amount.toLocaleString() + " to account " + account + " completed.");
+      document.getElementById("sendForm").style.display = 'none';
+      document.getElementById("accountNumber").value = '';
+      document.getElementById("sendAmount").value = '';
+    }
+  </script>
+
+</body>
+</html>
